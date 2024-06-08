@@ -6,8 +6,8 @@ const logger = require("morgan");
 import cors from "cors";
 
 import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
 import authRouter from "./auth/routes/auth";
+import userRouter from "./users/routes/users.routes";
 
 const app = express();
 
@@ -20,6 +20,6 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
-app.use("/users", usersRouter);
+app.use("/users", userRouter);
 
 module.exports = app;
