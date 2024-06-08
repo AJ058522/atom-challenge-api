@@ -1,12 +1,13 @@
 import express from "express";
-const path = require("path");
+import path from "path";
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
 import cors from "cors";
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+import indexRouter from "./routes/index";
+import usersRouter from "./routes/users";
+import authRouter from "./auth/routes/auth";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(cors());
 app.use("/", indexRouter);
+app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 
 module.exports = app;
