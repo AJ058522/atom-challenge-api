@@ -8,6 +8,7 @@ import cors from "cors";
 import indexRouter from "./routes/index";
 import authRouter from "./auth/routes/auth";
 import userRouter from "./users/routes/users.routes";
+import taskRouter from "./tasks/routes/tasks.routes";
 
 const app = express();
 
@@ -21,5 +22,6 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/tasks", taskRouter);
 
 module.exports = app;
