@@ -11,8 +11,7 @@ const login = async (req: Request, res: Response) => {
   }
   try {
     const data = await loginService(req.body.email);
-    const { email } = req.body;
-    const jwtToken = await jwtTokenGenerator({ email });
+    const jwtToken = await jwtTokenGenerator(data[0]);
 
     return res.status(200).json({
       msg: "logged in successfully.",
@@ -29,8 +28,9 @@ const login = async (req: Request, res: Response) => {
 const signup = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
-    const data = await signupService({ email });
-    const jwtToken = await jwtTokenGenerator({ email });
+    await signupService({ email });
+    const user = await loginService(req.body.email);
+    const jwtToken = await jwtTokenGenerator(user[0]);
 
     return res.status(200).json({
       msg: "user created successfully.",
