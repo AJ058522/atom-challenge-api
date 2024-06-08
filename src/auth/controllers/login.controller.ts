@@ -1,6 +1,9 @@
-import { Request, Response, NextFunction } from "express-serve-static-core";
+import { Request, Response } from "express-serve-static-core";
 
-import { loginService, signupService } from "../services";
+import {
+  getUserByEmail,
+  createUserService,
+} from "../../users/services/users.service";
 const { validationResult } = require("express-validator");
 import { jwtTokenGenerator } from "../utils/jwtTokenGenerator";
 
@@ -10,13 +13,13 @@ const login = async (req: Request, res: Response) => {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    const data = await loginService(req.body.email);
+    const data = await getUserByEmail(req.body.email);
     const jwtToken = await jwtTokenGenerator(data[0]);
 
     return res.status(200).json({
       msg: "logged in successfully.",
       data: {
-        email: data[0].email,
+        ...data[0],
         token: jwtToken,
       },
     });
@@ -28,14 +31,14 @@ const login = async (req: Request, res: Response) => {
 const signup = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
-    await signupService({ email });
-    const user = await loginService(req.body.email);
+    await createUserService({ email });
+    const user = await getUserByEmail(req.body.email);
     const jwtToken = await jwtTokenGenerator(user[0]);
 
     return res.status(200).json({
       msg: "user created successfully.",
       data: {
-        email,
+        ...user[0],
         token: jwtToken,
       },
     });

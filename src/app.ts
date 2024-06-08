@@ -6,7 +6,7 @@ const logger = require("morgan");
 import cors from "cors";
 
 import indexRouter from "./routes/index";
-import authRouter from "./auth/routes/auth";
+import authRouter from "./auth/routes/auth.routes";
 import userRouter from "./users/routes/users.routes";
 import taskRouter from "./tasks/routes/tasks.routes";
 
