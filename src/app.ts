@@ -9,6 +9,7 @@ import indexRouter from "./routes/index";
 import authRouter from "./auth/routes/auth.routes";
 import userRouter from "./users/routes/users.routes";
 import taskRouter from "./tasks/routes/tasks.routes";
+const authMiddleware = require("./auth/middlewares/auth.middleware");
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(cors());
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
-app.use("/users", userRouter);
-app.use("/tasks", taskRouter);
+app.use("/users", authMiddleware.isAuthorized, userRouter);
+app.use("/tasks", authMiddleware.isAuthorized, taskRouter);
 
 module.exports = app;
